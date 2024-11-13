@@ -6,44 +6,54 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/10 14:57:11 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:15:46 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
 char	*get_next_line(int fd)
 {
-	static char	*str;
-	char		*buf;
+	static char	*stat_buf;
+	char		*temp_buf;
 	char		*line;
-	int			ret;
+	int			b_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (NULL);
-	buf = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buf)
+	temp_buf = malloc(BUFFER_SIZE + 1);
+	if (!temp_buf)
 		return (NULL);
-	ret = 1;
-	while (!ft_strchr(str, '\n') && ret != 0)
+	b_read = 1;
+	while (!ft_strchr(stat_buf, '\n') && b_read > 0)
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret == -1)
+		b_read = read(fd, temp_buf, BUFFER_SIZE);
+		if (b_read == -1)
 		{
-			free(buf);
+			free(temp_buf);
 			return (NULL);
 		}
-		buf[ret] = '\0';
-		str = ft_strjoin(str, buf);
+		temp_buf[b_read] = 0;
+		stat_buf = ft_strjoin(stat_buf, temp_buf);
 	}
-	free(buf);
-	line = ft_substr(str, 0, ft_strchr(str, '\n') - str);
-	if (ft_strchr(str, '\n'))
-		str = ft_strdup(ft_strchr(str, '\n') + 1);
-	else
-	{
-		free(str);
-		str = NULL;
-	}
+	line = process_line(&stat_buf);
+	free(temp_buf);
 	return (line);
 }
+
+#include <stdio.h>
+int	main(void)
+{
+	char	*line;
+	int		fd;
+
+	fd = open("test.txt", O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s\n", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (0);
+}
+
