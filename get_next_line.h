@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:48 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 20:20:37 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:23:32 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@
 
 char	*cat_line_buffer(char *s1, char *s2);
 char	*get_next_line(int fd);
-size_t	len_nd_match(char *str, char term);
+size_t	strlen_nl(char *str, char term);
 
 #endif
