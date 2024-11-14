@@ -6,20 +6,39 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 20:25:51 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:04:13 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*cat_n_shift(char *line, char *buffer)
+{
+	char	*new_line;
+	size_t	line_len;
+	size_t	buffer_len;
+
+	line_len = strlen_nl(line, 0);
+	buffer_len = strlen_nl(buffer, '\n');
+	new_line = malloc(line_len + buffer_len + 1);
+	if (!new_line)
+		return (free(line), NULL);
+	copy(new_line, line, line_len);
+	copy(new_line + line_len, buffer, buffer_len);
+	new_line[line_len + buffer_len] = '\0';
+	free(line);
+	mv_buffer_left(buffer, buffer_len);
+	return (new_line);
+}
+
 size_t	strlen_nl(char *str, char match)
 {
 	size_t	len;
 
-	len = 0;
 	if (!str)
 		return (0);
-	while (*str && *str != match)
+	len = 0;
+	while (*str && *str != match && *str != '\n')
 	{
 		len++;
 		str++;
@@ -29,29 +48,18 @@ size_t	strlen_nl(char *str, char match)
 	return (len);
 }
 
-char	*cat_line_buffer(char *s1, char *s2)
+void	copy(char *dest, const char *src, size_t len)
 {
-	char	*str;
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	i;
+	while (len--)
+		*dest++ = *src++;
+}
 
-	s1_len = strlen_nl(s1, 0);
-	s2_len = strlen_nl(s2, '\n');
-	str = malloc(s1_len + s2_len + 1);
-	if (!str)
-		return (free(s1), NULL);
-	str[s1_len + s2_len] = '\0';
-	i = -1;
-	while (++i < s1_len)
-		str[i] = s1[i];
-	i = -1;
-	while (++i < s2_len)
-		str[s1_len + i] = s2[i];
-	free(s1);
-	i = -1;
-	while (s2[s2_len + ++i])
-		s2[i] = s2[s2_len + i];
-	s2[i] = '\0';
-	return (str);
+void	mv_buffer_left(char *buffer, size_t buffer_len)
+{
+	char	*start;
+
+	start = buffer + buffer_len;
+	while (*start)
+		*buffer++ = *start++;
+	*buffer = '\0';
 }
