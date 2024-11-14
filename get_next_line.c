@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 20:58:48 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:10:04 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ char	*get_next_line(int fd)
 		if (*buffer)
 		{
 			line = cat_n_shift(line, buffer);
-			if (!line)
-				return (NULL);
-			if (line[strlen_nl(line, '\n') - 1] == '\n')
+			if (!line || line[strlen_nl(line, '\n') - 1] == '\n')
 				break ;
 		}
 		else
