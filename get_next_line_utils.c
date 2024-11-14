@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 18:20:48 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:43:36 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ char	*make_line(char **buff)
 {
 	char	*line;
 	char	*temp;
-	char	*newline_pos;
+	size_t	newline_position;
 
 	if (!buff || !*buff)
 		return (NULL);
-	newline_pos = ft_strchr(*buff, '\n');
-	if (newline_pos)
+	newline_position = 0;
+	while ((*buff)[newline_position] && (*buff)[newline_position] != '\n')
+		newline_position++;
+	if ((*buff)[newline_position] == '\n')
 	{
-		line = ft_substr(*buff, 0, newline_pos - *buff + 1);
-		temp = ft_substr(newline_pos + 1, 0, ft_strlen(newline_pos + 1));
+		line = ft_substr(*buff, 0, newline_position + 1);
+		temp = ft_substr(*buff, newline_position + 1, ft_strlen(*buff) - newline_position - 1);
 		free(*buff);
 		*buff = temp;
 	}
@@ -69,7 +71,7 @@ size_t	ft_strlen(char *s)
 	i = 0;
 	if (!s)
 		return (0);
-	while (s[i])
+	while (*s++)
 		i++;
 	return (i);
 }
@@ -92,7 +94,8 @@ char	*ft_strchr(char *s, char c)
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*str;
-	size_t	i;
+	char	*src;
+	char	*dest;
 
 	if (!s)
 		return (NULL);
@@ -101,12 +104,10 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	str = malloc(len + 1);
 	if (!str)
 		return (NULL);
-	i = 0;
-	while (i < len && s[start + i])
-	{
-		str[i] = s[start + i];
-		i++;
-	}
-	str[i] = '\0';
+	src = s + start;
+	dest = str;
+	while (len-- && *src)
+		*dest++ = *src++;
+	*dest = '\0';
 	return (str);
 }
