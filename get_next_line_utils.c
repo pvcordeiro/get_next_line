@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 11:46:25 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:20:48 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,25 @@ char	*make_line(char **buff)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
-	size_t	i;
-	size_t	j;
+	char	*temp;
+	size_t	s1_len;
+	size_t	s2_len;
 
 	if (!s1 || !s2)
 		return (NULL);
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	s1_len = 0;
+	s2_len = 0;
+	while (s1[s1_len++]);
+	while (s2[s2_len++]);
+	str = malloc(s1_len + s2_len + 1);
 	if (!str)
 		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-		str[i++] = s2[j++];
-	str[i] = '\0';
+	temp = str;
+	while (*s1)
+		*temp++ = *s1++;
+	while (*s2)
+		*temp++ = *s2++;
+	*temp = '\0';
 	return (str);
 }
 
