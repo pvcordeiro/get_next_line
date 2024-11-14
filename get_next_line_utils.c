@@ -6,15 +6,31 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 21:04:13 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:16:14 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+size_t	strlen_nl(char *str, char match)
+{
+	size_t	len;
+
+	len = 0;
+	if (!str)
+		return (0);
+	while (str[len] && str[len] != match && str[len] != '\n')
+		len++;
+	if (str[len] == '\n')
+		len++;
+	return (len);
+}
+
 char	*cat_n_shift(char *line, char *buffer)
 {
 	char	*new_line;
+	char	*dest;
+	char	*src;
 	size_t	line_len;
 	size_t	buffer_len;
 
@@ -23,43 +39,22 @@ char	*cat_n_shift(char *line, char *buffer)
 	new_line = malloc(line_len + buffer_len + 1);
 	if (!new_line)
 		return (free(line), NULL);
-	copy(new_line, line, line_len);
-	copy(new_line + line_len, buffer, buffer_len);
-	new_line[line_len + buffer_len] = '\0';
+	dest = new_line;
+	src = line;
+	while (line_len--)
+		*dest++ = *src++;
+	src = buffer;
+	while (buffer_len--)
+		*dest++ = *src++;
+	*dest = '\0';
 	free(line);
-	mv_buffer_left(buffer, buffer_len);
+	mv_buffer_left(buffer, src);
 	return (new_line);
 }
 
-size_t	strlen_nl(char *str, char match)
+void	mv_buffer_left(char *buffer, char *src)
 {
-	size_t	len;
-
-	if (!str)
-		return (0);
-	len = 0;
-	while (*str && *str != match && *str != '\n')
-	{
-		len++;
-		str++;
-	}
-	if (*str == '\n')
-		len++;
-	return (len);
-}
-
-void	copy(char *dest, const char *src, size_t len)
-{
-	while (len--)
-		*dest++ = *src++;
-}
-
-void	mv_buffer_left(char *buffer, size_t buffer_len)
-{
-	char	*start;
-
-	start = buffer + buffer_len;
-	while (*start)
-		*buffer++ = *start++;
+	while (*src)
+		*buffer++ = *src++;
 	*buffer = '\0';
 }
