@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:48 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 11:30:33 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:20:37 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-size_t	ft_strlen(char *s);
-char	*make_line(char **str);
+char	*cat_line_buffer(char *s1, char *s2);
 char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(char *s, char c);
-char	*ft_substr(char *s, unsigned int start, size_t len);
+size_t	len_nd_match(char *str, char term);
 
 #endif

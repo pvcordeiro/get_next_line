@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 18:13:17 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:21:12 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,29 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*static_buffer;
-	char		*temp_buffer;
-	char		*new_buffer;
+	static char	static_buffer[BUFFER_SIZE + 1];
 	char		*line;
-	ssize_t		bytes_read;
+	ssize_t		bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (!static_buffer)
+	line = NULL;
+	bytes = 1;
+	while (!(fd < 0 || BUFFER_SIZE <= 0) && bytes > 0)
 	{
-		if (!(static_buffer = malloc(1)))
-			return (NULL);
-		*static_buffer = '\0';
-	}
-	if (!(temp_buffer = malloc(BUFFER_SIZE + 1)))
-	{
-		free(static_buffer);
-		static_buffer = NULL;
-		return (NULL);
-	}
-	bytes_read = 1;
-	while (!ft_strchr(static_buffer, '\n') && bytes_read > 0)
-	{
-		if ((bytes_read = read(fd, temp_buffer, BUFFER_SIZE)) == -1)
+		if (static_buffer[0])
 		{
-			free(temp_buffer);
-			free(static_buffer);
-			static_buffer = NULL;
-			return (NULL);
+			line = cat_line_buffer(line, static_buffer);
+			if (!line)
+				return (NULL);
+			if (line[len_nd_match(line, '\n') - 1] == '\n')
+				break ;
 		}
-		temp_buffer[bytes_read] = '\0';
-		if (!(new_buffer = ft_strjoin(static_buffer, temp_buffer)))
+		else
 		{
-			free(temp_buffer);
-			free(static_buffer);
-			static_buffer = NULL;
-			return (NULL);
+			bytes = read(fd, static_buffer, BUFFER_SIZE);
+			if (bytes == -1)
+				return (free(line), NULL);
+			static_buffer[bytes] = '\0';
 		}
-		free(static_buffer);
-		static_buffer = new_buffer;
-	}
-	free(temp_buffer);
-	if (!bytes_read && !static_buffer[0])
-	{
-		free(static_buffer);
-		static_buffer = NULL;
-		return (NULL);
-	}
-	if (!(line = make_line(&static_buffer)))
-	{
-		free(static_buffer);
-		static_buffer = NULL;
-		return (NULL);
 	}
 	return (line);
 }
@@ -89,7 +59,7 @@ int	main(void)
 		free(line);
 		line = get_next_line(fd);
 	}
-	close(fd);
 	printf("\n");
+	close(fd);
 	return (0);
 }

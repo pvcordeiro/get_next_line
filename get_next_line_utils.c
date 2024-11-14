@@ -6,108 +6,49 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 18:43:36 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:20:58 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*make_line(char **buff)
+size_t	len_nd_match(char *str, char match)
 {
-	char	*line;
-	char	*temp;
-	size_t	newline_position;
+	size_t	len;
 
-	if (!buff || !*buff)
-		return (NULL);
-	newline_position = 0;
-	while ((*buff)[newline_position] && (*buff)[newline_position] != '\n')
-		newline_position++;
-	if ((*buff)[newline_position] == '\n')
-	{
-		line = ft_substr(*buff, 0, newline_position + 1);
-		temp = ft_substr(*buff, newline_position + 1, ft_strlen(*buff) - newline_position - 1);
-		free(*buff);
-		*buff = temp;
-	}
-	else
-	{
-		line = ft_substr(*buff, 0, ft_strlen(*buff));
-		free(*buff);
-		*buff = NULL;
-	}
-	return (line);
+	len = 0;
+	if (!str)
+		return (0);
+	while (str[len] && str[len] != match)
+		len++;
+	if (str[len] == '\n')
+		len++;
+	return (len);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*cat_line_buffer(char *s1, char *s2)
 {
 	char	*str;
-	char	*temp;
 	size_t	s1_len;
 	size_t	s2_len;
-
-	if (!s1 || !s2)
-		return (NULL);
-	s1_len = 0;
-	s2_len = 0;
-	while (s1[s1_len++]);
-	while (s2[s2_len++]);
-	str = malloc(s1_len + s2_len + 1);
-	if (!str)
-		return (NULL);
-	temp = str;
-	while (*s1)
-		*temp++ = *s1++;
-	while (*s2)
-		*temp++ = *s2++;
-	*temp = '\0';
-	return (str);
-}
-
-size_t	ft_strlen(char *s)
-{
 	size_t	i;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (*s++)
-		i++;
-	return (i);
-}
-
-char	*ft_strchr(char *s, char c)
-{
-	if (!s)
-		return (NULL);
-	while (*s)
-	{
-		if (*s == c)
-			return (s);
-		s++;
-	}
-	if (*s == c)
-		return (s);
-	return (NULL);
-}
-
-char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	char	*str;
-	char	*src;
-	char	*dest;
-
-	if (!s)
-		return (NULL);
-	if (ft_strlen(s) < start)
-		return (malloc(1));
-	str = malloc(len + 1);
+	s1_len = len_nd_match(s1, 0);
+	s2_len = len_nd_match(s2, '\n');
+	str = malloc(s1_len + s2_len + 1);
 	if (!str)
-		return (NULL);
-	src = s + start;
-	dest = str;
-	while (len-- && *src)
-		*dest++ = *src++;
-	*dest = '\0';
+		return (free(s1), NULL);
+	str[s1_len + s2_len] = '\0';
+	i = -1;
+	while (++i < s1_len)
+		str[i] = s1[i];
+	i = -1;
+	while (++i < s2_len)
+		str[s1_len + i] = s2[i];
+	free(s1);
+	i = -1;
+	while (s2[s2_len + ++i])
+		s2[i] = s2[s2_len + i];
+	s2[i] = '\0';
 	return (str);
 }
