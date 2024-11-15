@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 16:55:09 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:01:33 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*get_next_line(int fd)
 {
-	static char	stash[FD_MAX][BUFFER_SIZE + 1];
+	static char	stash[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	ssize_t		bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FD_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
 	line = NULL;
 	bytes_read = 1;
