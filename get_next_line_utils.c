@@ -6,57 +6,60 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 11:07:09 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:40:22 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	strlen_nl(char *str, char match)
+size_t	strlen_nl(char *str)
 {
 	size_t	len;
 
-	len = 0;
 	if (!str)
 		return (0);
-	while (str[len] && str[len] != match && str[len] != '\n')
+	len = 0;
+	while (str[len] && str[len] != '\n')
 		len++;
 	if (str[len] == '\n')
 		len++;
 	return (len);
 }
 
-char	*cat_n_shift(char *line, char *buffer)
+char	*join_n_shift(char *line, char *buffer)
 {
 	char	*new_line;
-	char	*temp;
+	char	*iter_p;
 	size_t	line_len;
 	size_t	buffer_len;
 
-	line_len = strlen_nl(line, 0);
-	buffer_len = strlen_nl(buffer, '\n');
+	line_len = strlen_nl(line);
+	buffer_len = strlen_nl(buffer);
 	new_line = malloc(line_len + buffer_len + 1);
 	if (!new_line)
 		return (free(line), NULL);
-	temp = new_line;
-	temp = copy_to(temp, line, line_len);
-	temp = copy_to(temp, buffer, buffer_len);
-	*temp = '\0';
+	iter_p = new_line;
+	iter_p = join_r_to_nl(iter_p, line, line_len);
+	iter_p = join_r_to_nl(iter_p, buffer, buffer_len);
+	*iter_p = '\0';
 	free(line);
-	mv_buffer_left(buffer, buffer + buffer_len);
+	mv_buffer_left(buffer, buffer_len);
 	return (new_line);
 }
 
-void	mv_buffer_left(char *buffer, char *src)
+void	mv_buffer_left(char *buffer, size_t buffer_len)
 {
-	while (*src)
-		*buffer++ = *src++;
+	char	*after_nl;
+
+	after_nl = buffer + buffer_len;
+	while (*after_nl)
+		*buffer++ = *after_nl++;
 	*buffer = '\0';
 }
 
-char	*copy_to(char *dest, const char *src, size_t len)
+char	*join_r_to_nl(char *n_line, char *line_or_buff, size_t len)
 {
 	while (len--)
-		*dest++ = *src++;
-	return (dest);
+		*n_line++ = *line_or_buff++;
+	return (n_line);
 }
