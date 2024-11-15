@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:48 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 12:52:03 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:09:53 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char	*cat_n_shift(char *s1, char *s2);
+char	*join_n_shift(char *s1, char *s2);
 char	*get_next_line(int fd);
 size_t	strlen_nl(char *str);
 void	mv_buffer_left(char *buffer, size_t buffer_len);
-char	*cat_str_to_nl(char *n_line, char *str, size_t len);
+char	*cat_str_to_nxtl(char *n_line, char *str, size_t len);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 13:40:53 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:09:53 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*get_next_line(int fd)
 	{
 		if (*stash[fd])
 		{
-			line = cat_n_shift(line, stash[fd]);
-			if (!line || line[strlen_nl(line) - 1] == '\n')
+			line = join_n_shift(line, stash[fd]);
+			if (line && line[strlen_nl(line) - 1] == '\n')
 				break ;
 		}
 		bytes_read = read(fd, stash[fd], BUFFER_SIZE);
