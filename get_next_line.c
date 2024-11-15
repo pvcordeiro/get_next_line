@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 11:32:41 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:17:35 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	stash[BUFFER_SIZE + 1];
 	char		*line;
-	ssize_t		bytes;
+	ssize_t		bytes_read;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	line = NULL;
-	bytes = 1;
-	while (!(fd < 0 || BUFFER_SIZE <= 0) && bytes > 0)
+	bytes_read = 1;
+	while (bytes_read > 0)
 	{
-		if (*buffer)
+		if (*stash)
 		{
-			line = join_n_shift(line, buffer);
+			line = cat_n_shift(line, stash);
 			if (!line || line[strlen_nl(line) - 1] == '\n')
 				break ;
 		}
-		else
-		{
-			bytes = read(fd, buffer, BUFFER_SIZE);
-			if (bytes == -1)
-				return (free(line), NULL);
-			buffer[bytes] = '\0';
-		}
+		bytes_read = read(fd, stash, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (free(line), NULL);
+		stash[bytes_read] = '\0';
 	}
 	return (line);
 }

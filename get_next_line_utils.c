@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 11:40:22 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:17:53 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,40 @@ size_t	strlen_nl(char *str)
 	return (len);
 }
 
-char	*join_n_shift(char *line, char *buffer)
+char	*cat_n_shift(char *line, char *stash)
 {
 	char	*new_line;
-	char	*iter_p;
+	char	*temp;
 	size_t	line_len;
-	size_t	buffer_len;
+	size_t	stash_len;
 
 	line_len = strlen_nl(line);
-	buffer_len = strlen_nl(buffer);
-	new_line = malloc(line_len + buffer_len + 1);
+	stash_len = strlen_nl(stash);
+	new_line = malloc(line_len + stash_len + 1);
 	if (!new_line)
 		return (free(line), NULL);
-	iter_p = new_line;
-	iter_p = join_r_to_nl(iter_p, line, line_len);
-	iter_p = join_r_to_nl(iter_p, buffer, buffer_len);
-	*iter_p = '\0';
+	temp = new_line;
+	temp = cat_str_to_nl(temp, line, line_len);
+	temp = cat_str_to_nl(temp, stash, stash_len);
+	*temp = '\0';
 	free(line);
-	mv_buffer_left(buffer, buffer_len);
+	mv_buffer_left(stash, stash_len);
 	return (new_line);
 }
 
-void	mv_buffer_left(char *buffer, size_t buffer_len)
+void	mv_buffer_left(char *stash, size_t stash_len)
 {
 	char	*after_nl;
 
-	after_nl = buffer + buffer_len;
+	after_nl = stash + stash_len;
 	while (*after_nl)
-		*buffer++ = *after_nl++;
-	*buffer = '\0';
+		*stash++ = *after_nl++;
+	*stash = '\0';
 }
 
-char	*join_r_to_nl(char *n_line, char *line_or_buff, size_t len)
+char	*cat_str_to_nl(char *n_line, char *str, size_t len)
 {
 	while (len--)
-		*n_line++ = *line_or_buff++;
+		*n_line++ = *str++;
 	return (n_line);
 }
