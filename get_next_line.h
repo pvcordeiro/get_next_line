@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:48 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/14 21:13:54 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:59:55 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ char	*cat_n_shift(char *s1, char *s2);
 char	*get_next_line(int fd);
 size_t	strlen_nl(char *str, char term);
 void	mv_buffer_left(char *buffer, char *src);
+char	*copy_to(char *dest, const char *src, size_t len);
 
 #endif
