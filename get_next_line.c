@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 14:09:53 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:19:08 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,14 @@ char	*get_next_line(int fd)
 // int	main(void)
 // {
 // 	char	*line;
-// 	int		fd;
+// 	size_t	fd;
 
-// 	printf("\n");
-// 	printf("\n");
+// 	fd = open("test.txt", O_CREAT | O_WRONLY, 0777);
+// 	write(fd, "Roses are red\n"
+//            "Violets are blue\n"
+//            "Segmentation Fault\n"
+//            "On line 32\n", 62);
+// 	close(fd);
 // 	fd = open("test.txt", O_RDONLY);
 // 	line = get_next_line(fd);
 // 	while (line)
@@ -55,7 +59,6 @@ char	*get_next_line(int fd)
 // 		free(line);
 // 		line = get_next_line(fd);
 // 	}
-// 	printf("\n");
 // 	close(fd);
 // 	return (0);
 // }
