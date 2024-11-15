@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 17:01:33 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:17:30 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// #include <stdio.h>
 // #include <fcntl.h>
 
 // int main(void)
@@ -75,13 +74,12 @@ char	*get_next_line(int fd)
 //            "Segmentation Fault\n"
 //            "On line 32\n", 62);
 //     close(fd[3]);
-// 
-// 
+
 //     fd[0] = open("fd3.txt", O_RDONLY);
 //     fd[1] = open("fd4.txt", O_RDONLY);
 //     fd[2] = open("fd5.txt", O_RDONLY);
 //     fd[3] = open("fd6.txt", O_RDONLY);
-// 
+
 //     while (1)
 //     {
 //         done = 1;
@@ -101,7 +99,7 @@ char	*get_next_line(int fd)
 //         if (done)
 //             break;
 //     }
-// 
+
 // 	close(fd[0]);
 // 	close(fd[1]);
 // 	close(fd[2]);
