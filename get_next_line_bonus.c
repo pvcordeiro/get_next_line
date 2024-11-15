@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:30 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:45:10 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 char	*get_next_line(int fd)
 {
 	static char	stash[FOPEN_MAX][BUFFER_SIZE + 1];
-	char		*line;
-	ssize_t		bytes_read;
+	char		*result;
+	ssize_t		read_count;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
-	line = NULL;
-	bytes_read = 1;
-	while (bytes_read > 0)
+	result = NULL;
+	read_count = 1;
+	while (read_count > 0)
 	{
 		if (*stash[fd])
 		{
-			line = join_n_shift(line, stash[fd]);
-			if (line && line[strlen_nl(line) - 1] == '\n')
+			result = merge_and_shift(result, stash[fd]);
+			if (result && result[len_to_nl(result) - 1] == '\n')
 				break ;
 		}
-		bytes_read = read(fd, stash[fd], BUFFER_SIZE);
-		if (bytes_read == -1)
-			return (free(line), NULL);
-		stash[fd][bytes_read] = '\0';
+		read_count = read(fd, stash[fd], BUFFER_SIZE);
+		if (read_count == -1)
+			return (free(result), NULL);
+		stash[fd][read_count] = '\0';
 	}
-	return (line);
+	return (result);
 }
 
 // #include <fcntl.h>
