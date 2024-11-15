@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:38 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 17:43:51 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:54:57 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	len_to_nl(char *str)
 	return (len);
 }
 
-char	*merge_and_shift(char *line, char *stash)
+char	*merge_and_move(char *line, char *stash)
 {
 	char	*new_line;
 	char	*temp;
@@ -43,11 +43,11 @@ char	*merge_and_shift(char *line, char *stash)
 	temp = copy_to_nxtline(temp, stash, stash_len);
 	*temp = '\0';
 	free(line);
-	mv_stash_left(stash, stash_len);
+	move_stash_left(stash, stash_len);
 	return (new_line);
 }
 
-void	mv_stash_left(char *stash, size_t stash_len)
+void	move_stash_left(char *stash, size_t stash_len)
 {
 	char	*after_nl;
 

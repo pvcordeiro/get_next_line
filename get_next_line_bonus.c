@@ -6,7 +6,7 @@
 /*   By: paude-so <paude-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:51:22 by paude-so          #+#    #+#             */
-/*   Updated: 2024/11/15 17:45:10 by paude-so         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:54:40 by paude-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_next_line(int fd)
 	{
 		if (*stash[fd])
 		{
-			result = merge_and_shift(result, stash[fd]);
+			result = merge_and_move(result, stash[fd]);
 			if (result && result[len_to_nl(result) - 1] == '\n')
 				break ;
 		}
